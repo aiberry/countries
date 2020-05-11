@@ -12,24 +12,26 @@ import PropTypes from 'prop-types';
 
 import styles from './CodesList.module.css';
 
-export default function CodesList({ codes, getCountruByCode, isOpen, setOpen }) {
-  const handleClick = () => {
-    setOpen();
-  };
-
+export default function CodesList({
+  codes,
+  getCountruByCode,
+  isOpen,
+  setOpen,
+  interfaceNames
+}) {
   return (
     <List
       component="nav"
       aria-labelledby="nested-list-subheader"
       className={styles.root}>
-      <ListItem button onClick={handleClick}>
+      <ListItem button onClick={setOpen}>
         <ListItemIcon>
           <EmojiFlags />
         </ListItemIcon>
-        <ListItemText primary="Codes List" />
+        <ListItemText primary={interfaceNames.name} />
         {isOpen ? <ExpandLess /> : <ExpandMore />}
       </ListItem>
-      <Collapse in={isOpen} timeout="10" unmountOnExit>
+      <Collapse in={isOpen} timeout={10} unmountOnExit>
         <List component="div" disablePadding>
           {codes.map((code) => (
             <ListItem
@@ -49,8 +51,9 @@ export default function CodesList({ codes, getCountruByCode, isOpen, setOpen }) 
 }
 
 CodesList.propTypes = {
-  codes: PropTypes.object,
+  codes: PropTypes.array,
   getCountruByCode: PropTypes.func,
   isOpen: PropTypes.bool,
-  setOpen: PropTypes.func
+  setOpen: PropTypes.func,
+  interfaceNames: PropTypes.object
 };

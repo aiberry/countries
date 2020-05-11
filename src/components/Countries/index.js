@@ -7,98 +7,102 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import styles from './Countries.module.css';
 import PropTypes from 'prop-types';
 
-export default function Countries({ countries }) {
+export default function Countries({ countries, interfaceNames }) {
   return (
     <div className={styles.root}>
       {countries.length
         ? countries.map((country) => (
             <ExpansionPanel
               key={country.name}
+              className={styles.countryHeader}
               defaultExpanded={countries.length === 1}>
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls="panel1a-content"
                 id="panel1a-header">
-                <Typography>
-                  <h2 className={styles.rowName}>{country.name}</h2>
-                  {country.nativeName}
+                <Typography component={'div'}>
+                  <span className={styles.rowName}>{country.name}</span>
+                  <div>{country.nativeName}</div>
                 </Typography>
               </ExpansionPanelSummary>
-              <ExpansionPanelDetails>
-                <Typography>
-                  <div className={styles.mainInfo}>
-                    <img src={country.flag} alt="Country flag"></img>
-                    <span>
-                      <p>
-                        <b>Capital:</b> {country.capital}
-                      </p>
-                      <p>
-                        <b>Region:</b> {`${country.region} (${country.subregion})`}
-                      </p>
-                      <p>
-                        <b>Population:</b> {country.population}
-                      </p>
-                      <p>
-                        <b>Codes: </b>
-                        {`${country.alpha2Code} ${country.alpha3Code}`}
-                      </p>
-                      <p>
-                        <b>
-                          {country.languages.length === 1
-                            ? 'Language: '
-                            : 'Languages: '}
-                        </b>
-                        {country.languages
-                          .map((language) => language.name)
-                          .join(', ')}
-                      </p>
-                    </span>
-                    <div>
-                      <p>
-                        <b>Borders with: </b>
-                        {country.borders.length ? country.borders.join(', ') : 'No'}
-                      </p>
-                      <p>
-                        <b>Regional Blocs: </b>
-                        {country.regionalBlocs
-                          .map((block) => `${block.name} (${block.acronym})`)
-                          .join(', ') || 'No'}
-                      </p>
-                      <p>
-                        <b>Top level Domain: </b>
-                        {country.topLevelDomain}
-                      </p>
-                      <p>
-                        <b>Calling codes: </b>
-                        {country.callingCodes}
-                      </p>
-                      <p>
-                        <b>Timezones: </b>
-                        {country.timezones}
-                      </p>
-                      <p>
-                        <b>
-                          {country.currencies && country.currencies.length > 1
-                            ? 'Currencies: '
-                            : 'Currency: '}
-                        </b>
-                        {country.currencies.map((currency) => (
-                          <span key={country.name + currency.code}>
-                            {`${currency.code} - ${currency.name} - ${currency.symbol}`}
-                          </span>
-                        ))}
-                      </p>
-                    </div>
+              <ExpansionPanelDetails className={styles.mainInfo}>
+                <div>
+                  <div>
+                    <h4>{interfaceNames.capital}: </h4> <p>{country.capital}</p>
                   </div>
-                </Typography>
+                  <div>
+                    <h4>{interfaceNames.region}: </h4>{' '}
+                    <p>{`${country.region} (${country.subregion})`}</p>
+                  </div>
+
+                  <div>
+                    <h4>{interfaceNames.population}: </h4>{' '}
+                    <p>{country.population}</p>
+                  </div>
+                  <div>
+                    <h4>{interfaceNames.codes}: </h4>
+                    <p>{`${country.alpha2Code} ${country.alpha3Code}`}</p>
+                  </div>
+                  <div>
+                    <h4>
+                      {`${
+                        country.languages.includes(',')
+                          ? interfaceNames.languages
+                          : interfaceNames.language
+                      }: `}
+                    </h4>
+                    <p>{country.languages}</p>
+                  </div>
+                  <div>
+                    <h4>{interfaceNames.borders}: </h4>
+                    <p>
+                      {country.borders.length
+                        ? country.borders.join(', ')
+                        : interfaceNames.emptyAnswer}
+                    </p>
+                  </div>
+                  <div>
+                    <h4>
+                      {country.regionalBlocs.includes(',')
+                        ? interfaceNames.reregionalBlocs
+                        : interfaceNames.reregionalBloc}
+                      :{' '}
+                    </h4>
+                    <p>{country.regionalBlocs || interfaceNames.emptyAnswer}</p>
+                  </div>
+                  <div>
+                    <h4>{interfaceNames.topLevelDomain}: </h4>
+                    <p>{country.topLevelDomain}</p>
+                  </div>
+                  <div>
+                    <h4>{interfaceNames.callingCodes}: </h4>
+                    <p>{country.callingCodes}</p>
+                  </div>
+                  <div>
+                    <h4>{interfaceNames.timezones}: </h4>
+                    <p>{country.timezones}</p>
+                  </div>
+                  <div>
+                    <h4>
+                      {`${
+                        country.currencies.includes(',')
+                          ? interfaceNames.currencies
+                          : interfaceNames.currency
+                      }: `}
+                    </h4>
+                    <p>{country.currencies}</p>
+                  </div>
+                </div>
+                <img src={country.flag} alt="Country flag"></img>
               </ExpansionPanelDetails>
             </ExpansionPanel>
           ))
-        : 'no Countries'}
+        : ''}
     </div>
   );
 }
 
 Countries.propTypes = {
-  countries: PropTypes.array
+  countries: PropTypes.array,
+  interfaceNames: PropTypes.object
 };

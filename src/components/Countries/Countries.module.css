@@ -1,9 +1,11 @@
 .root {
   width: 100%;
-  background-color: aliceblue;
 }
 .mainInfo {
   border: 10px;
+  display: flex;
+  background-color: #d5dbe0;
+  justify-content: space-between;
 }
 
 .mainInfo > img {
@@ -13,5 +15,24 @@
 }
 
 .rowName {
-  margin: 10px 0 0 0;
+  margin: 0 0 0 0;
+  font-size: 1.5em;
+  margin-block-start: 0.83em;
+  margin-block-end: 0.83em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+}
+
+.countryHeader {
+  background-color: #acd2ce;
+}
+
+.mainInfo h4,
+.mainInfo p {
+  display: inline;
+}
+
+.mainInfo div {
+  margin: 10px 0 5px 0;
 }

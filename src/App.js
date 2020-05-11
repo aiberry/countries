@@ -6,12 +6,14 @@ import styles from './App.module.css';
 import CodesList from './components/CodesList';
 import Form from './components/Form';
 import Countries from './components/Countries';
+import LanguageTab from './components/LanguageTab';
+import { getCodes } from './actions/getCodes';
+import { changeL11n } from './actions/changeL11n';
 import { setSearchQuery } from './actions/setSearchQuery';
 import { getCountryData } from './actions/getCountryData';
-import { getCodes } from './actions/getCodes';
+import { toggleCodesList } from './actions/toggleCodesList';
 import { CODE as CODEselector } from './constatnts';
 
-import { toggleCodesList } from './actions/toggleCodesList';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -26,20 +28,33 @@ class App extends React.Component {
       getCountry,
       codes,
       countries,
-      isOpen,
-      setCodesListOpen
+      isCodesOpen,
+      setCodesListOpen,
+      onChangeL11n,
+      interfaceNames,
+      isRussianL11n
     } = this.props;
     return (
       <div className={styles.wrap}>
-        <Form setQuery={setQuery} query={query} getCountry={getCountry} />
+        <LanguageTab onChangeL11n={onChangeL11n} isRussianL11n={isRussianL11n} />
+        <Form
+          setQuery={setQuery}
+          query={query}
+          getCountry={getCountry}
+          interfaceNames={interfaceNames.form}
+        />
         <div className={styles.mainContent}>
           <CodesList
             codes={codes}
             getCountruByCode={(code) => getCountry(CODEselector, code)}
-            isOpen={isOpen}
+            isOpen={isCodesOpen}
             setOpen={setCodesListOpen}
+            interfaceNames={interfaceNames.codesList}
           />
-          <Countries countries={countries.current} />
+          <Countries
+            countries={countries.current}
+            interfaceNames={interfaceNames.countries}
+          />
         </div>
       </div>
     );
@@ -48,7 +63,9 @@ class App extends React.Component {
 
 export default connect(
   (state) => ({
-    isOpen: state.codes.isOpen,
+    isRussianL11n: state.isRussianL11n,
+    interfaceNames: state.interfaceNames,
+    isCodesOpen: state.codes.isOpen,
     query: state.searchQuery,
     countries: state.countries,
     codes: state.searchQuery
@@ -71,6 +88,9 @@ export default connect(
     },
     setCodesListOpen: () => {
       dispatch(toggleCodesList());
+    },
+    onChangeL11n: () => {
+      dispatch(changeL11n());
     }
   })
 )(App);
@@ -81,7 +101,10 @@ App.propTypes = {
   getCountry: PropTypes.func,
   codes: PropTypes.array,
   countries: PropTypes.object,
-  isOpen: PropTypes.bool,
+  isCodesOpen: PropTypes.bool,
   setCodesListOpen: PropTypes.func,
-  fillCodesList: PropTypes.func
+  fillCodesList: PropTypes.func,
+  interfaceNames: PropTypes.object,
+  onChangeL11n: PropTypes.func,
+  isRussianL11n: PropTypes.bool
 };

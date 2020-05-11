@@ -1,10 +1,9 @@
-const countries = (
-  state = {
-    current: [],
-    history: { fullName: {}, shortName: {}, code: {}, currency: {} }
-  },
-  action
-) => {
+const defaultState = {
+  current: [],
+  history: { fullName: {}, shortName: {}, code: {}, currency: {} }
+};
+
+const countries = (state = defaultState, action) => {
   if (action.type === 'SET_CURRENT_COUNTRY') {
     if (action.saveToHistoryQuery) {
       const newHistoryBySelector = {
@@ -21,6 +20,9 @@ const countries = (
     } else {
       return { ...state, current: action.payload };
     }
+  }
+  if (action.type === 'CLEAR_CURRENT_AND_HISTORY') {
+    return defaultState;
   }
   return state;
 };

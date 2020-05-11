@@ -1,0 +1,13 @@
+.topTab img {
+  width: 23px;
+  margin-right: 10px;
+}
+
+.root {
+  flex-grow: 1;
+  background-color: #3f51b5;
+  width: fit-content;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
